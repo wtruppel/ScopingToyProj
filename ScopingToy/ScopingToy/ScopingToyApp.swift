@@ -17,4 +17,5 @@ struct ScopingToyApp: App {
             RootScene.View(store: store)
         }
     }
+
 }

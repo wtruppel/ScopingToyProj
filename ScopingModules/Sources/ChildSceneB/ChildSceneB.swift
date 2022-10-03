@@ -65,13 +65,12 @@ extension ChildSceneB {
 
     public struct View: SwiftUI.View {
 
-        // See https://github.com/pointfreeco/swift-composable-architecture/discussions/1435
-        // for the discussion that proposes @StateObject as the solution for the issue of
-        // too much view re-rendering.
-        @StateObject private var viewStore: ViewStore<State, Action>
+        private let store: Store<State, Action>
+        @ObservedObject private var viewStore: ViewStore<State, Action>
 
         public init(store: Store<State, Action>) {
-            self._viewStore = .init(wrappedValue: ViewStore(store))
+            self.store = store
+            self.viewStore = ViewStore(store)
         }
 
         public var body: some SwiftUI.View {

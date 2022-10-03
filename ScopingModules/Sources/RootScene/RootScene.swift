@@ -116,10 +116,7 @@ extension RootScene {
         private let childSceneAStore: Store<ChildSceneA.State, ChildSceneA.Action>
         private let childSceneBStore: Store<ChildSceneB.State, ChildSceneB.Action>
 
-        // See https://github.com/pointfreeco/swift-composable-architecture/discussions/1435
-        // for the discussion that proposes @StateObject as the solution for the issue of
-        // too much view re-rendering.
-        @StateObject private var userIsLoggedInViewStore: ViewStore<Bool, Action>
+        @ObservedObject private var userIsLoggedInViewStore: ViewStore<Bool, Action>
 
         public init(store: Store<State, Action>) {
             self.childSceneAStore = store.scope(
@@ -130,7 +127,7 @@ extension RootScene {
                 state: \.childSceneB,
                 action: Action.childSceneB
             )
-            self._userIsLoggedInViewStore = .init(wrappedValue: ViewStore(store.scope(state: \.userIsLoggedIn)))
+            self.userIsLoggedInViewStore = ViewStore(store.scope(state: \.userIsLoggedIn))
         }
 
         public var body: some SwiftUI.View {
